@@ -31,7 +31,7 @@ class Client():
         self.dialogChecker = DialogChecker(self.battleChecker, self.mqtt)
         
         self.HpMpChecker = HpMpChecker(name, self.mqtt)
-        self.teki = [(52,378), (113,439), (156,326), (220,386), (206,274), (269,334), (265,215), (326,275), (373,163), (434,224)]
+        self.teki = [(53,384), (113,439), (156,326), (220,386), (206,274), (269,334), (265,215), (326,275), (373,163), (434,224)]
         self.dialogLocation = [(384, 310), (384, 341), (384, 367), (384, 400)]
         self.mikata = (588, 460)
         self.name = name
