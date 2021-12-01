@@ -31,7 +31,8 @@ class Client():
         self.dialogChecker = DialogChecker(self.battleChecker, self.mqtt)
         
         self.HpMpChecker = HpMpChecker(name, self.mqtt)
-        self.teki = [(82,384), (144,444), (156,326), (220,386), (227,274), (288,335), (262,212), (364,280), (373,163), (432,227)]
+        self.teki = [(52,378), (144,444), (156,326), (220,386), (227,274), (288,335), (262,212), (364,280), (373,163), (432,227)]
+        self.dialogLocation = [(384, 310), (384, 341), (384, 367), (384, 400)]
         self.mikata = (588, 460)
         self.name = name
         self.handleKey = threading.Thread(target=self.key)
@@ -55,6 +56,21 @@ class Client():
             elif key_stroke == 'f3':
                 self.mqtt.sendData('pause', '0')
             time.sleep(0.1)
+    def clickDialog(self, x, y):
+        pyautogui.moveTo(x, y)
+        pyautogui.moveTo(x, y)
+        pyautogui.mouseDown()
+        pyautogui.mouseUp()
+        time.sleep(0.5)
+        pyautogui.moveTo(384, 310)
+        pyautogui.moveTo(384, 310)
+        pyautogui.mouseDown()
+        pyautogui.mouseUp()
+        pyautogui.mouseDown()
+        pyautogui.mouseUp()
+        unlock = self.mqtt.action
+        unlock['perform'] = 1
+        self.mqtt.dialog(json.dumps(unlock))
 
     def main(self):
         while True:
@@ -64,58 +80,7 @@ class Client():
                 if self.mqtt.action is not None:
                     while self.mqtt.action['perform'] == 0:
                         num = self.mqtt.action['action']
-                        if num == '1':
-                            pyautogui.moveTo(384, 310)
-                            pyautogui.moveTo(384, 310)
-                            pyautogui.mouseDown()
-                            pyautogui.mouseUp()
-                            time.sleep(0.5)
-                            pyautogui.moveTo(384, 310)
-                            pyautogui.moveTo(384, 310)
-                            pyautogui.mouseDown()
-                            pyautogui.mouseUp()
-                            unlock = self.mqtt.action
-                            unlock['perform'] = 1
-                            self.mqtt.dialog(json.dumps(unlock))
-                        elif num == '2':
-                            pyautogui.moveTo(384, 341)
-                            pyautogui.moveTo(384, 341)
-                            pyautogui.mouseDown()
-                            pyautogui.mouseUp()
-                            time.sleep(0.5)
-                            pyautogui.moveTo(384, 310)
-                            pyautogui.moveTo(384, 310)
-                            pyautogui.mouseDown()
-                            pyautogui.mouseUp()
-                            unlock = self.mqtt.action
-                            unlock['perform'] = 1
-                            self.mqtt.dialog(json.dumps(unlock))
-                        elif num == '3':
-                            pyautogui.moveTo(384, 367)
-                            pyautogui.moveTo(384, 367)
-                            pyautogui.mouseDown()
-                            pyautogui.mouseUp()
-                            time.sleep(0.5)
-                            pyautogui.moveTo(384, 310)
-                            pyautogui.moveTo(384, 310)
-                            pyautogui.mouseDown()
-                            pyautogui.mouseUp()
-                            unlock = self.mqtt.action
-                            unlock['perform'] = 1
-                            self.mqtt.dialog(json.dumps(unlock))
-                        elif num == '4':
-                            pyautogui.moveTo(384, 400)
-                            pyautogui.moveTo(384, 400)
-                            pyautogui.mouseDown()
-                            pyautogui.mouseUp()
-                            time.sleep(0.5)
-                            pyautogui.moveTo(384, 310)
-                            pyautogui.moveTo(384, 310)
-                            pyautogui.mouseDown()
-                            pyautogui.mouseUp()
-                            unlock = self.mqtt.action
-                            unlock['perform'] = 1
-                            self.mqtt.dialog(json.dumps(unlock))
+                        self.clickDialog(self.dialogLocationp[num][0], self.dialogLocationp[num][1])
 
                 if (self.name == 'yami'):
                     if not self.mqtt.pause and self.HpMpChecker.hp > 20 and self.HpMpChecker.mp > 20:
